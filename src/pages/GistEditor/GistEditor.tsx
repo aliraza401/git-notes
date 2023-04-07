@@ -2,7 +2,7 @@ import { Button, message } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React from "react";
 
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FieldValues, useForm } from "react-hook-form";
 import { Container } from "../../components/Container";
 import { Input } from "../../components/Input";
 
@@ -13,6 +13,7 @@ import { GistContextObject } from "../../context/GistContext";
 import { useParams } from "react-router-dom";
 import { fileReader } from "../../utils/fileReader";
 import { StyledEditGist } from "./GistEditor.styled";
+import { GistForm } from "../../hooks/useGists/useGists.interface";
 
 export const GistEditor: React.FC<EditGistProps> = () => {
   const navigate = useNavigate();
@@ -43,8 +44,9 @@ export const GistEditor: React.FC<EditGistProps> = () => {
     })();
   }, [gist, id]);
 
-  const onSubmit = async (data: any) => {
-    const inputObj: any = {
+  const onSubmit = async (data: FieldValues) => {
+    const inputObj: GistForm = {
+      id: "",
       description: data.description,
       public: true,
       files: {

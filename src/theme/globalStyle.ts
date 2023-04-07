@@ -9,6 +9,10 @@ const GlobalStyle = createGlobalStyle`
   .cursor-pointer {
     cursor: pointer;
   }
+  button:hover > span {
+    /* color: white; */
+    /* border-color: white; */
+  } 
 `;
 
 export default GlobalStyle;

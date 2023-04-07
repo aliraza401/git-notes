@@ -10,12 +10,14 @@ async function readFile(fileUrl: string): Promise<string> {
   const decoder = new TextDecoder();
   let content = "";
 
-  const res = await fetchFile(fileUrl);
+  const res = await fetch(fileUrl);
   if (res.ok) {
-    const file: any = res.body;
+    const file = res.body as ReadableStream<Uint8Array>;
     const reader = file.getReader();
 
-    const readStream = async (reader: any) => {
+    const readStream = async (
+      reader: ReadableStreamDefaultReader<Uint8Array>
+    ) => {
       const { done, value } = await reader.read();
       if (done) return;
       content += decoder.decode(value, { stream: true });

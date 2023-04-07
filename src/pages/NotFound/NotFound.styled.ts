@@ -8,9 +8,5 @@ export const StylednotFound = styled.div`
     padding-left: 25px;
     padding-right: 25px;
     transition: 0.2s ease-in-out;
-    &:hover {
-      background-color: ${({ theme }) => theme["@primary-color"]} !important;
-      color: white !important;
-    }
   }
 `;

@@ -8,7 +8,6 @@ export default function useGists() {
 
   const setuserFromToken = () => {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (!token) return;
 
     setToken(token);
@@ -23,9 +22,7 @@ export default function useGists() {
       setUser(response.data);
     };
 
-    fetchUser().then((res) => {
-      console.log({ user: res });
-    });
+    fetchUser();
   };
 
   React.useEffect(() => {

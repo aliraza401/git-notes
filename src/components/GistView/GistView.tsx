@@ -94,9 +94,9 @@ export const GistView: React.FC<GistViewProps> = React.memo(
       setLoading(false);
     }, [gist.id]);
 
-    const onDeleteGist = useCallback(() => {
+    const onDeleteGist = useCallback(async () => {
       if (typeof gist.id === "string") {
-        const result = deleteGist(gist.id);
+        const result = await deleteGist(gist.id);
         setMessagePopup("Gist deleted");
         if (!!result) navigate(paths.URL_HOME);
       }

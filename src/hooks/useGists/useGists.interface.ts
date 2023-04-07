@@ -10,6 +10,17 @@ export interface FetchGistTypes {
   username?: string;
 }
 
+export interface GistForm {
+  id: string;
+  description: any;
+  public: boolean;
+  files: {
+    [x: number]: {
+      content: any;
+    };
+  };
+}
+
 export interface Gist {
   url: string;
   forks_url: string;

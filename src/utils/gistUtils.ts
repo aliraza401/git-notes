@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { axiosQuery } from "./api";
-import { Gist } from "../hooks/useGists/useGists.interface";
+import { Gist, GistForm } from "../hooks/useGists/useGists.interface";
 
 export async function isGistStarred(gistId: string) {
   try {
@@ -44,7 +44,7 @@ export async function unStarGist(gistId: string) {
   }
 }
 
-export async function createGist(payload: Gist) {
+export async function createGist(payload: GistForm) {
   try {
     const response = await axiosQuery({
       url: `/gists`,
@@ -62,7 +62,7 @@ export async function createGist(payload: Gist) {
   }
 }
 
-export async function updateGist(payload: Gist) {
+export async function updateGist(payload: GistForm) {
   try {
     const response = await axiosQuery({
       url: `/gists/${payload.id}`,

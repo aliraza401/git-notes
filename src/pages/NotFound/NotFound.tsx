@@ -15,7 +15,7 @@ export const NotFound: React.FC<NotFoundProps> = () => {
         subTitle="Sorry, the page you visited does not exist."
         extra={
           <Link to={paths.URL_HOME}>
-            <Button type="primary">Back Home</Button>
+            <Button>Back Home</Button>
           </Link>
         }
       />

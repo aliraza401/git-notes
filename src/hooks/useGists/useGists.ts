@@ -15,14 +15,14 @@ export default function useGists() {
   });
 
   const fetchGists = async ({ per_page, page, query }: FetchGistTypes) => {
-    await setLoading(true);
+    setLoading(true);
     const response = await axiosQuery({
       url: `/gists`,
       method: "GET",
       params: { per_page, page, query },
     });
     console.log({ response });
-    await setLoading(false);
+    setLoading(false);
     setGists(response.data);
   };
 

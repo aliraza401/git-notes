@@ -14,7 +14,7 @@ export const Table: React.FC<TableProps> = ({
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: ({ name, img }: {name: string, img: string}) => (
+      render: ({ name, img }: { name: string; img: string }) => (
         <Space>
           <Avatar src={img} />
           <span>{name}</span>
@@ -60,10 +60,9 @@ export const Table: React.FC<TableProps> = ({
       Notebook: Object.keys(item.files)[0],
     }));
   }, [gists]);
-
-  const onRowClicked = (item: any) => {
-    if (typeof item.key === "string") {
-      gristClicked(item.key);
+  const onRowClicked = (item: unknown) => {
+    if (typeof (item as { key: unknown }).key === "string") {
+      gristClicked((item as { key: string }).key);
     }
   };
 
