@@ -19,6 +19,7 @@ app.get("/getToken", (req, res) => {
   fetch(url, { method: "POST", headers: { Accept: "application/json" } })
     .then((res) => res.json())
     .then((data) => {
+      console.log({token})
       res.json({ access_token: data });
     });
 });

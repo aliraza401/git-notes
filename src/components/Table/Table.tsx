@@ -14,7 +14,7 @@ export const Table: React.FC<TableProps> = ({
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: ({ name, img }: any) => (
+      render: ({ name, img }: {name: string, img: string}) => (
         <Space>
           <Avatar src={img} />
           <span>{name}</span>

@@ -12,12 +12,12 @@ function App() {
 
   return (
     <ThemeProvider theme={{ ...theme, screen }}>
-      <GistContext>
-        <UserContext>
+      <UserContext>
+        <GistContext>
           <GlobalStyle />
           <Router />
-        </UserContext>
-      </GistContext>
+        </GistContext>
+      </UserContext>
     </ThemeProvider>
   );
 }

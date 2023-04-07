@@ -1,6 +1,7 @@
 import Axios, {
   AxiosError,
   AxiosRequestConfig,
+  AxiosRequestHeaders,
   AxiosResponse,
   Method,
 } from "axios";
@@ -50,8 +51,8 @@ export const axiosQuery: any = async <T>(
       params,
       headers,
     })
-    .catch((error: any) => {
-      throw error?.data?.message ?? error?.message ?? "Something went wrong";
+    .catch((error: AxiosError) => {
+      throw error?.message ?? "Something went wrong";
     });
 
   return { data: result.data };

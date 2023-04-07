@@ -1,4 +1,6 @@
+import { AxiosError } from "axios";
 import { axiosQuery } from "./api";
+import { Gist } from "../hooks/useGists/useGists.interface";
 
 export async function isGistStarred(gistId: string) {
   try {
@@ -42,7 +44,7 @@ export async function unStarGist(gistId: string) {
   }
 }
 
-export async function createGist(payload: any) {
+export async function createGist(payload: Gist) {
   try {
     const response = await axiosQuery({
       url: `/gists`,
@@ -51,7 +53,7 @@ export async function createGist(payload: any) {
       data: {
         ...payload,
       },
-    }).catch((error: any) => {
+    }).catch((error: AxiosError) => {
       return false;
     });
     return response.data;
@@ -60,7 +62,7 @@ export async function createGist(payload: any) {
   }
 }
 
-export async function updateGist(payload: any) {
+export async function updateGist(payload: Gist) {
   try {
     const response = await axiosQuery({
       url: `/gists/${payload.id}`,
@@ -69,7 +71,7 @@ export async function updateGist(payload: any) {
       data: {
         ...payload,
       },
-    }).catch((error: any) => {
+    }).catch((error: AxiosError) => {
       return false;
     });
     return response.data;
@@ -83,7 +85,7 @@ export async function deleteGist(gistId: string) {
     await axiosQuery({
       url: `/gists/${gistId}`,
       method: "DELETE",
-    }).catch((error: any) => {
+    }).catch((error: AxiosError) => {
       return false;
     });
     return true;
@@ -97,7 +99,7 @@ export async function forkGist(gistId: string) {
     const response = await axiosQuery({
       url: `/gists/${gistId}/fork`,
       method: "POST",
-    }).catch((error: any) => {
+    }).catch((error: AxiosError) => {
       return false;
     });
     return response.data;

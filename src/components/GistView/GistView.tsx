@@ -45,7 +45,7 @@ export const GistView: React.FC<GistViewProps> = React.memo(
     viewType = ViewType.compact,
     gistClicked = () => {},
   }) => {
-    const [content, setContent] = useState<any>(null);
+    const [content, setContent] = useState("");
     const [isStarred, setIsStarred] = useState(false);
     const [loading, setLoading] = useState(false);
     const [messagePopup, setMessagePopup] = useState<string | boolean>(false);

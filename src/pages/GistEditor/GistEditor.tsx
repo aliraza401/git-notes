@@ -21,7 +21,7 @@ export const GistEditor: React.FC<EditGistProps> = () => {
     control,
     setValue,
     formState: { errors },
-  } = useForm<any>();
+  } = useForm();
   const { id } = useParams();
   const { setSelectedGist, gist } = React.useContext(GistContextObject);
 
