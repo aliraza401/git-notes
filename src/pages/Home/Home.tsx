@@ -1,5 +1,4 @@
 import {
-  ArrowLeftOutlined,
   ArrowRightOutlined,
   TableOutlined,
   UnorderedListOutlined,
@@ -7,14 +6,10 @@ import {
 import React from "react";
 import { HomeProps, StyledHomeProps } from "./Home.interface";
 
-import styled from "styled-components";
 import { Container } from "../../components/Container";
 import { Table } from "../../components/Table";
-import useGists from "../../hooks/useGists/useGists";
 import { Gist, GistLayout } from "../../hooks/useGists/useGists.interface";
-import type { ColumnsType } from "antd/es/table";
 import { GistView } from "../../components/GistView";
-import { ListRender } from "../../components/ListRender";
 import { Button, Col, Pagination, Row, Space } from "antd";
 
 import { GistContextObject } from "./../../context/GistContext";
