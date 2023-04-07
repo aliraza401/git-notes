@@ -4,7 +4,7 @@ import {
   UnorderedListOutlined,
 } from "@ant-design/icons";
 import React from "react";
-import { HomeProps, StyledHomeProps } from "./Home.interface";
+import { HomeProps } from "./Home.interface";
 
 import { Container } from "../../components/Container";
 import { Table } from "../../components/Table";
