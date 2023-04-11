@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes } from "react-router-dom";
 
-import { Layout } from "./../layouts";
+import { Layout } from "./../layouts/Layout";
 import { RecursiveRouteMapper } from "./RecursiveRouteMapper";
 import {
   AUTHENTICATED_ROUTES,

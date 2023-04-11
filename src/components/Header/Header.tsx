@@ -3,7 +3,7 @@ import LogoImg from "./../../assets/imgs/logo.png";
 
 import { HeaderProps } from "./Header.interface";
 import { Avatar, Button, Image, Input, Layout, Space, Dropdown } from "antd";
-import { Container } from "../Container";
+import { Container } from "../Container/Container";
 import { Link } from "react-router-dom";
 import { UserContextObject } from "../../context/UserContext";
 import { useNavigate } from "react-router-dom";

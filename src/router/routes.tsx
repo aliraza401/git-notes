@@ -1,18 +1,21 @@
 import { RouteObject } from "react-router-dom";
-import { Home } from "../pages/Home";
-import { Detail } from "../pages/Detail";
-import { Login } from "../pages/Login";
-import { NotFound } from "../pages/NotFound";
+import { Home } from "../pages/Home/Home";
+import { Detail } from "../pages/Detail/Detail";
+import { Login } from "../pages/Login/Login";
+import { NotFound } from "../pages/NotFound/NotFound";
 import { paths } from "./../constants/paths";
-import { UserProfile } from "../pages/UserProfile";
-import { GistEditor } from "../pages/GistEditor";
+import { UserProfile } from "../pages/UserProfile/UserProfile";
+import { GistEditor } from "../pages/GistEditor/GistEditor";
 
-export interface Route extends RouteObject {
-  name?: string;
-  children?: Route[];
+export interface RoutePram extends Record<string, string | undefined> {}
+
+export interface PathRoute extends Omit<RouteObject, "children" | "element"> {
+  element?: JSX.Element
+  children?: PathRoute[]
+  render?: boolean
 }
 
-export const OPEN_ROUTES: Route[] = [
+export const OPEN_ROUTES: PathRoute[] = [
   {
     path: paths.URL_HOME,
     element: <Home />,
@@ -27,7 +30,7 @@ export const OPEN_ROUTES: Route[] = [
   },
 ];
 
-export const AUTHENTICATED_ROUTES: Route[] = [
+export const AUTHENTICATED_ROUTES: PathRoute[] = [
   {
     path: paths.URL_USER_PROFILE,
     element: <UserProfile />,
@@ -42,7 +45,7 @@ export const AUTHENTICATED_ROUTES: Route[] = [
   },
 ];
 
-export const UNAUTHENTICATED_ROUTES: Route[] = [
+export const UNAUTHENTICATED_ROUTES: PathRoute[] = [
   {
     path: paths.URL_LOGIN,
     element: <Login />,

@@ -4,13 +4,13 @@ import {
   GistLayout,
   Gist,
   FetchGistTypes,
+  GistForm,
 } from "./../hooks/useGists/useGists.interface";
 
 export const GistContextObject = React.createContext({
   gists: [] as Gist[],
   gist: null as Gist | null,
   loading: false,
-  error: "",
   layoutType: GistLayout.list,
   setLayoutType: (type: GistLayout) => {},
   fetchUserGists: ({ per_page, page, username }: FetchGistTypes) => {},
@@ -21,6 +21,12 @@ export const GistContextObject = React.createContext({
   } as FetchGistTypes,
   userGists: [] as Gist[],
   setSelectedGist: (id: string | null) => {},
+  createGist: (inputObj: GistForm) => {},
+  updateGist: (inputObj: GistForm) => {},
+  onStarGist: (id: string) => {},
+  onDeleteGist: (id: string) => {},
+  onForkGist: (id: string) => {},
+  onUnStarGist: (id: string) => {},
 });
 
 interface GistContextProps {
@@ -31,7 +37,6 @@ export const GistContext = ({ children }: GistContextProps) => {
   const {
     gists,
     loading,
-    error,
     layoutType,
     setLayoutType,
     gist,
@@ -40,6 +45,12 @@ export const GistContext = ({ children }: GistContextProps) => {
     userGists,
     paginationState,
     setPaginationState,
+    createGist,
+    updateGist,
+    onStarGist,
+    onDeleteGist,
+    onForkGist,
+    onUnStarGist,
   } = useGists();
 
   return (
@@ -47,7 +58,6 @@ export const GistContext = ({ children }: GistContextProps) => {
       value={{
         gists,
         loading,
-        error,
         layoutType,
         setLayoutType,
         gist,
@@ -56,6 +66,12 @@ export const GistContext = ({ children }: GistContextProps) => {
         userGists,
         paginationState,
         setPaginationState,
+        createGist,
+        updateGist,
+        onStarGist,
+        onDeleteGist,
+        onForkGist,
+        onUnStarGist,
       }}
     >
       {children}

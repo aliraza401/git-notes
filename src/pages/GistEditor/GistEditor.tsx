@@ -1,19 +1,19 @@
-import { Button, message } from "antd";
-import TextArea from "antd/es/input/TextArea";
 import React from "react";
+import { Button } from "antd";
+import TextArea from "antd/es/input/TextArea";
 
+import { useNavigate } from "react-router-dom";
 import { Controller, FieldValues, useForm } from "react-hook-form";
-import { Container } from "../../components/Container";
-import { Input } from "../../components/Input";
+import { Container } from "../../components/Container/Container";
+import { Input } from "../../components/Input/Input";
 
 import { EditGistProps } from "./GistEditor.interface";
-import { createGist, updateGist } from "../../utils/gistUtils";
-import { useNavigate } from "react-router-dom";
 import { GistContextObject } from "../../context/GistContext";
 import { useParams } from "react-router-dom";
-import { fileReader } from "../../utils/fileReader";
 import { StyledEditGist } from "./GistEditor.styled";
 import { GistForm } from "../../hooks/useGists/useGists.interface";
+import { paths } from "../../constants/paths";
+import { getGistFormData } from "./../../utils/utils";
 
 export const GistEditor: React.FC<EditGistProps> = () => {
   const navigate = useNavigate();
@@ -24,50 +24,30 @@ export const GistEditor: React.FC<EditGistProps> = () => {
     formState: { errors },
   } = useForm();
   const { id } = useParams();
-  const { setSelectedGist, gist } = React.useContext(GistContextObject);
+  const { setSelectedGist, gist, createGist, updateGist } =
+    React.useContext(GistContextObject);
 
   React.useEffect(() => {
-    if (id) setSelectedGist(id);
+    if (id && id !== gist?.id) setSelectedGist(id);
   }, []);
 
   React.useEffect(() => {
-    (async () => {
-      if (gist && id) {
-        setValue("description", gist.description);
-        const firstFileKey = Object.keys(gist.files)[0];
-        setValue("name", firstFileKey);
-
-        const fileUrl = gist.files[firstFileKey].raw_url;
-        const content = await fileReader({ fileUrl });
-        setValue("content", content);
-      }
-    })();
-  }, [gist, id]);
+    if (gist) {
+      setValue("description", gist.description);
+      setValue("name", Object.keys(gist.files)[0]);
+      setValue("content", gist.content);
+    }
+  }, [gist]);
 
   const onSubmit = async (data: FieldValues) => {
-    const inputObj: GistForm = {
-      id: "",
-      description: data.description,
-      public: true,
-      files: {
-        [data.name]: {
-          content: data.content,
-        },
-      },
-    };
+    const inputObj: GistForm = getGistFormData(data);
     if (id) {
       inputObj.id = id;
-      const respData = await updateGist(inputObj);
-      if (Object.keys(respData).length) {
-        setSelectedGist(null);
-        message.success("Gist Edit successfully");
-        navigate(`/gist-detail/${id}`);
-      }
+      await updateGist(inputObj);
     } else {
-      const respData = await createGist(inputObj);
-      message.success("Gist created successfully");
-      navigate(`/gist-detail/${respData.id}`);
+      await createGist(inputObj);
     }
+    navigate(paths.URL_USER_PROFILE);
   };
 
   return (
@@ -82,7 +62,7 @@ export const GistEditor: React.FC<EditGistProps> = () => {
               required: "This field is required",
               minLength: {
                 value: 2,
-                message: "Input should be at least 5 characters long",
+                message: "Input should be at least 2 characters long",
               },
             }}
           />
@@ -94,7 +74,7 @@ export const GistEditor: React.FC<EditGistProps> = () => {
               required: "This field is required",
               minLength: {
                 value: 2,
-                message: "Input should be at least 5 characters long",
+                message: "Input should be at least 2 characters long",
               },
             }}
           />

@@ -1,29 +1,133 @@
 import React from "react";
-import { GistLayout, Gist, FetchGistTypes } from "./useGists.interface";
+import {
+  GistLayout,
+  Gist,
+  FetchGistTypes,
+  GistForm,
+} from "./useGists.interface";
+import {
+  createGist as createGistService,
+  getGist as fetchGist,
+  getGists,
+  getUserGists,
+  updateGist as updateGistService,
+  starGist,
+  forkGist,
+  unStarGist,
+  deleteGist,
+} from "../../services/gistService";
 
-import { axiosQuery } from "./../../utils/api";
+import { useMessagePopup } from "../useMessagePopup/useMessagePopup";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
 export default function useGists() {
   const [gists, setGists] = React.useState<Gist[]>([]);
   const [userGists, setUserGists] = React.useState<Gist[]>([]);
-  const [gist, setGist] = React.useState<Gist | null>(null);
-  const [error, setError] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const [layoutType, setLayoutType] = React.useState(GistLayout.list);
   const [paginationState, setPaginationState] = React.useState({
     per_page: 9,
     page: 1,
   });
+  const [gistId, setGistId] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [layoutType, setLayoutType] = React.useState(GistLayout.list);
+
+  const { setMessagePopup } = useMessagePopup();
+
+  const createGist = async (inputObj: GistForm) => {
+    try {
+      setLoading(true);
+      const result = await createGistService(inputObj);
+      if (result) {
+        setMessagePopup("Gist created successfully");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setMessagePopup("Error create gist");
+      return false;
+    }
+  };
+
+  const updateGist = async (inputObj: GistForm) => {
+    try {
+      setLoading(true);
+      const result = await updateGistService(inputObj);
+      if (result) {
+        setMessagePopup("Gist updated successfully");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setMessagePopup("Error updated gist");
+      return false;
+    }
+  };
+
+  const onStarGist = async (gistId: string) => {
+    try {
+      setLoading(true);
+      const result = await starGist(gistId);
+      if (result) {
+        setMessagePopup("Gist star successfully");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setMessagePopup("Error star gist");
+      return false;
+    }
+  };
+
+  const onUnStarGist = async (gistId: string) => {
+    try {
+      setLoading(true);
+      const result = await unStarGist(gistId);
+      if (result) {
+        setMessagePopup("Gist un-star successfully");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setMessagePopup("Error un-star gist");
+      return false;
+    }
+  };
+
+  const onDeleteGist = async (gistId: string) => {
+    try {
+      setLoading(true);
+      const result = await deleteGist(gistId);
+      if (result) {
+        setMessagePopup("Gist deleted");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setMessagePopup("Error deleted gist");
+      return false;
+    }
+  };
+
+  const onForkGist = async (gistId: string) => {
+    try {
+      setLoading(true);
+      const result = await forkGist(gistId);
+      if (result) {
+        setMessagePopup("Gist forked succesfully");
+        setLoading(false);
+      }
+    } catch (err) {
+      console.log(err);
+      setMessagePopup("Error fork gist");
+      return false;
+    }
+  };
 
   const fetchGists = async ({ per_page, page, query }: FetchGistTypes) => {
     setLoading(true);
-    const response = await axiosQuery({
-      url: `/gists`,
-      method: "GET",
-      params: { per_page, page, query },
-    });
-    console.log({ response });
+    const response = await getGists({ per_page, page, query });
+    if (Array.isArray(response)) setGists(response);
     setLoading(false);
-    setGists(response.data);
   };
 
   const fetchUserGists = async ({
@@ -31,39 +135,22 @@ export default function useGists() {
     page = 1,
     username,
   }: FetchGistTypes) => {
+    await setLoading(true);
     if (username === "") {
       setUserGists([]);
-      return;
+    } else {
+      const response = await getUserGists({ per_page, page, username });
+      if (Array.isArray(response)) setUserGists(response);
     }
-    await setLoading(true);
-    const response = await axiosQuery({
-      url: `/users/${username}/gists`,
-      method: "GET",
-      params: { per_page, page },
-    });
 
     await setLoading(false);
-    setUserGists(response.data);
   };
 
-  const setSelectedGist = async (id: string | null) => {
-    if (id === null) {
-      setGist(null);
-      return;
-    }
-    await setLoading(true);
-    const response = await axiosQuery({
-      url: `/gists/${id}`,
-      method: "GET",
-    }).catch((error: string) => {
-      setLoading(false);
-      setError(error);
-      return;
-    });
+  const { data: gist } = useQuery(["gist", gistId], () => fetchGist(gistId), {
+    enabled: Boolean(gistId),
+  });
 
-    await setLoading(false);
-    setGist(response.data);
-  };
+  const setSelectedGist = async (id: string | null) => setGistId(id);
 
   React.useEffect(() => {
     fetchGists(paginationState);
@@ -72,7 +159,6 @@ export default function useGists() {
   return {
     gists,
     loading,
-    error,
     layoutType,
     setLayoutType,
     gist,
@@ -81,5 +167,11 @@ export default function useGists() {
     fetchUserGists,
     paginationState,
     setPaginationState,
+    createGist,
+    updateGist,
+    onStarGist,
+    onDeleteGist,
+    onForkGist,
+    onUnStarGist,
   };
 }

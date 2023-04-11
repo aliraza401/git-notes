@@ -6,6 +6,8 @@ export const UserContextObject = React.createContext({
   user: null as User | null,
   token: null as string | null,
   logOut: () => {},
+  loginWithGithub: (githubClientId: string) => {},
+  valiadteLogin: (codeParam: string): any => {},
   setuserFromToken: () => {},
 });
 
@@ -14,7 +16,14 @@ interface UserContextProps {
 }
 
 export const UserContext = ({ children }: UserContextProps) => {
-  const { user, token, logOut, setuserFromToken } = useUser();
+  const {
+    user,
+    token,
+    logOut,
+    setuserFromToken,
+    valiadteLogin,
+    loginWithGithub,
+  } = useUser();
 
   return (
     <UserContextObject.Provider
@@ -22,6 +31,8 @@ export const UserContext = ({ children }: UserContextProps) => {
         user,
         token,
         logOut,
+        valiadteLogin,
+        loginWithGithub,
         setuserFromToken,
       }}
     >

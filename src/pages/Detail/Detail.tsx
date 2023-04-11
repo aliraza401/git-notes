@@ -1,10 +1,10 @@
 import React from "react";
 import { DetailProps } from "./Detail.interface";
 import styled from "styled-components";
-import { Container } from "../../components/Container";
+import { Container } from "../../components/Container/Container";
 import { GistContextObject } from "./../../context/GistContext";
 import { useParams } from "react-router-dom";
-import { GistView } from "../../components/GistView";
+import { GistView } from "../../components/GistView/GistView";
 import { ViewType } from "../../components/GistView/GistView.interface";
 
 const StyledDetail = styled.div``;
@@ -16,10 +16,7 @@ export const Detail: React.FC<DetailProps> = () => {
     React.useContext(GistContextObject);
 
   React.useEffect(() => {
-    if (typeof id === "string") {
-      setSelectedGist(id);
-    }
-
+    if (typeof id === "string" && id !== gist?.id) setSelectedGist(id);
     return () => setSelectedGist(null);
   }, []);
 

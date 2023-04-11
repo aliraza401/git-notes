@@ -60,6 +60,7 @@ export const Table: React.FC<TableProps> = ({
       Notebook: Object.keys(item.files)[0],
     }));
   }, [gists]);
+  
   const onRowClicked = (item: unknown) => {
     if (typeof (item as { key: unknown }).key === "string") {
       gristClicked((item as { key: string }).key);
@@ -70,7 +71,7 @@ export const Table: React.FC<TableProps> = ({
     <AntTable
       onRow={(record) => {
         return {
-          onClick: (event) => {
+          onClick: () => {
             onRowClicked(record);
           },
         };

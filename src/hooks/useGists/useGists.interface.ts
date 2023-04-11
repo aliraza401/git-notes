@@ -67,4 +67,6 @@ export interface Gist {
     site_admin: boolean;
   };
   truncated: boolean;
+  isGistStarred: boolean;
+  content: string;
 }

@@ -1,7 +1,6 @@
 import { Button, Result } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import { paths } from "../../constants/paths";
 import { NotFoundProps } from "./NotFound.interface";
 import { StylednotFound } from "./NotFound.styled";

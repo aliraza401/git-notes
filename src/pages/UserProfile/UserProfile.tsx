@@ -1,19 +1,19 @@
 import React from "react";
-import { User, UserProfileProps } from "./UserProfile.interface";
+import { UserProfileProps } from "./UserProfile.interface";
 
 import { UserContextObject } from "../../context/UserContext";
-import styled from "styled-components";
-import { Container } from "../../components/Container";
-import { Avatar, Button, Col, Divider, Row, Typography } from "antd";
+import { Container } from "../../components/Container/Container";
+import { Avatar, Button, Col, Divider, Row, Skeleton, Typography } from "antd";
 import { GistContextObject } from "../../context/GistContext";
-import { GistView } from "../../components/GistView";
+import { GistView } from "../../components/GistView/GistView";
 import { ViewType } from "../../components/GistView/GistView.interface";
 import { StyleUserProfile } from "./UserProfile.styled";
 const { Title } = Typography;
 
 export const UserProfile: React.FC<UserProfileProps> = () => {
   const { user } = React.useContext(UserContextObject);
-  const { fetchUserGists, userGists } = React.useContext(GistContextObject);
+  const { fetchUserGists, userGists, loading } =
+    React.useContext(GistContextObject);
 
   React.useEffect(() => {
     fetchUserGists({ username: user?.login, per_page: 100, page: 1 });
@@ -39,13 +39,17 @@ export const UserProfile: React.FC<UserProfileProps> = () => {
             </div>
           </Col>
           <Col span={16} className="vertical-divider">
-            {userGists?.map((gist) => (
-              <GistView
-                gist={gist}
-                key={gist.id}
-                viewType={ViewType.userProfile}
-              />
-            ))}
+            {userGists.length === 0 ? (
+              <Skeleton paragraph={{ rows: 15 }} />
+            ) : (
+              userGists?.map((gist) => (
+                <GistView
+                  gist={gist}
+                  key={gist.id}
+                  viewType={ViewType.userProfile}
+                />
+              ))
+            )}
           </Col>
         </Row>
       </StyleUserProfile>

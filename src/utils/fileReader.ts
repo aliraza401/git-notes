@@ -1,5 +1,3 @@
-import { fetchFile } from "./../utils/utils";
-
 interface FileReaderProps {
   fileUrl: string;
 }

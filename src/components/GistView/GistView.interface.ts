@@ -1,6 +1,4 @@
-import { compact } from "lodash";
 import { Gist } from "../../hooks/useGists/useGists.interface";
-import { Detail } from "../../pages/Detail";
 
 export enum ViewType {
   compact = "compact",

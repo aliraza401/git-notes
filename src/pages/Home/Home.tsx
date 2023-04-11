@@ -6,10 +6,10 @@ import {
 import React from "react";
 import { HomeProps } from "./Home.interface";
 
-import { Container } from "../../components/Container";
-import { Table } from "../../components/Table";
+import { Container } from "../../components/Container/Container";
+import { Table } from "../../components/Table/Table";
 import { Gist, GistLayout } from "../../hooks/useGists/useGists.interface";
-import { GistView } from "../../components/GistView";
+import { GistView } from "../../components/GistView/GistView";
 import { Button, Col, Pagination, Row, Space } from "antd";
 
 import { GistContextObject } from "./../../context/GistContext";
@@ -23,7 +23,6 @@ export const Home: React.FC<HomeProps> = () => {
   const {
     loading,
     gists,
-    error: GistsFetchingError,
     layoutType,
     setLayoutType,
     paginationState,
@@ -40,7 +39,7 @@ export const Home: React.FC<HomeProps> = () => {
     navigate(`/gist-detail/${gistId}`);
   };
 
-  const inPaginationChange = (page: number) => {
+  const onPaginationChange = (page: number) => {
     setPaginationState({
       ...paginationState,
       page: page,
@@ -88,7 +87,7 @@ export const Home: React.FC<HomeProps> = () => {
           <div></div>
           <Button
             size="large"
-            onClick={() => inPaginationChange(paginationState.page + 1)}
+            onClick={() => onPaginationChange(paginationState.page + 1)}
           >
             Next Page <ArrowRightOutlined />
           </Button>
@@ -98,7 +97,7 @@ export const Home: React.FC<HomeProps> = () => {
             defaultCurrent={1}
             current={paginationState.page}
             total={3051}
-            onChange={inPaginationChange}
+            onChange={onPaginationChange}
           />
         </div>
       </Container>
